@@ -1,0 +1,20 @@
+---
+framework: jest
+preRun:
+     command:
+        - npm install
+        - npm run build
+preMerge:
+  pattern:
+    - "./lib/**/*.test.js"
+    - "./app/**/*.test.js"
+    - "./lib/integration-test.js"
+postMerge:
+  pattern:
+    - "./lib/**/*.test.js"
+    - "./app/**/*.test.js"
+    - "./lib/integration-test.js"
+postRun:
+     command:
+        - npm --version
+version: 1.0
