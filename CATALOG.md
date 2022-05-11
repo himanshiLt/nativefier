@@ -9,6 +9,30 @@ Below you'll find a list of build commands contributed by the Nativefier communi
 
 ---
 
+## General recipes
+
+### Window size and position
+
+This allows the last set window size and position to be remembered and applied
+after your app is restarted. Note: PR welcome for a built-in fix for that :) .
+
+```sh
+nativefier 'https://open.google.com/'
+  --inject window.js
+```
+
+Note: [Inject](https://github.com/nativefier/nativefier/blob/master/API.md#inject)
+the following javascript as `windows.js` to prevent the window size and position to reset.
+```javascript
+function storeWindowPos() {
+  window.localStorage.setItem('windowX', window.screenX);
+  window.localStorage.setItem('windowY', window.screenY);
+}
+
+window.moveTo(window.localStorage.getItem('windowX'), window.localStorage.getItem('windowY'));
+setInterval(storeWindowPos, 250);
+```
+
 ## Google apps
 
 (This example documents Google Sheets, but is applicable to other Google apps,
@@ -31,7 +55,7 @@ Note: lying about the User Agent is required, else Google will notice your
 nativefier 'https://outlook.office.com/mail'
   --internal-urls '.*?(outlook.live.com|outlook.office365.com).*?'
   --file-download-options '{"saveAs": true}'
-  --browserwindow-options '{"webPreferences": { "webviewTag": true, "nodeIntegration": true, "nodeIntegrationInSubFrames": true, "nativeWindowOpen": true } }'
+  --browserwindow-options '{"webPreferences": { "webviewTag": true, "nodeIntegration": true, "nodeIntegrationInSubFrames": true } }'
 ```
 
 Note: `--browserwindow-options` is needed to allow pop-outs when creating/editing an email.
